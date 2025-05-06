@@ -2,15 +2,60 @@
 <html>
 <head>
     <title>Amazon Review Sentiment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        textarea {
+            width: 100%;
+            font-family: inherit;
+        }
+        .history {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .entry {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+        .entry strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <h2>Enter a review to analyse sentiment</h2>
+
     <form method="POST">
-        <textarea name="sentence" rows="5" cols="60" placeholder="Type your review here..."></textarea><br><br>
-        <input type="submit" value="Analyse Sentiment">
+        <textarea name="sentence" rows="5" placeholder="Type your review here..."></textarea><br>
+        <div class="buttons">
+            <button type="submit" name="action" value="analyse">Analyse Sentiment</button>
+            <button type="submit" name="action" value="clear">Clear History</button>
+        </div>
     </form>
+
     {% if prediction %}
         <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+
+    {% if history %}
+    <div class="history">
+        <h3>Previous Reviews</h3>
+        {% for item in history|reverse %}
+        <div class="entry">
+            <strong>Review:</strong> {{ item.text }}<br>
+            <strong>Prediction:</strong> {{ item.prediction }}
+        </div>
+        {% endfor %}
+    </div>
     {% endif %}
 </body>
 </html>
